@@ -31,7 +31,7 @@ public:
 	bool hasNext(){
 		return next != nullptr;
 	}
-}
+};
 
 template<typename T>
 class Stack{
@@ -40,7 +40,7 @@ private:
 	int size;
 public:
 	Stack():size(0){}
-	
+
 	Stack(int value){
 		this->head = new Node<T>(value);
 		this->size = 1;
@@ -91,6 +91,9 @@ public:
 int main(){
 	Stack<int> stack;
 	stack.push(2);
-	cout << stack.peek() << endl;
+	stack.push(2);
+	cout << stack.pop() << endl;
+	cout << stack.pop() << endl;
+	cout << stack.pop() << endl;
 	return 0;
 }
