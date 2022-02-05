@@ -10,7 +10,7 @@ public:
 	Node(T data){
 		this->data = data;
 	}
-	
+
 	Node(T data, Node<T> *next){
 		this->data = data;
 		this->next = next;
@@ -155,10 +155,9 @@ public:
 };
 
 
-
 int main(){
 	LinkedList<int> linkedlist;
-	LinkedList.push_back(2);
-
+	linkedlist.push_back(2);
+    cout << linkedlist.pop_back() << endl;
 	return 0;
 }
