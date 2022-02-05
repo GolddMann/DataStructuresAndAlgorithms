@@ -105,6 +105,6 @@ int main(){
 	DynamicArray<int> ints;
 	ints.append(2);
 	ints.append(3);
-	cout << ints.getByIndex(1) << endl;
+	cout << ints.getByIndex(0) << endl;
 	return 0;
 }
