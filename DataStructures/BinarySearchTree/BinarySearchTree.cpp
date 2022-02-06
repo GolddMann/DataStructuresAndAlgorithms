@@ -68,6 +68,12 @@ private:
         print(node->getRight());
 	}
 
+	int getHeight(Node *node){
+		if(node == nullptr)
+			return 0;
+		return max(getHeight(node->getLeft()),getHeight(node->getRight())) + 1;
+	}
+
 public:
 	BinarySearchTree(int capacity):size(0), capacity(capacity){}
 
@@ -171,6 +177,10 @@ public:
 		return node;
 	}
 
+	int height(){
+		return getHeight(root);
+	}
+
 	void printInOrder(){
 		printInOrder(root);
 	}
@@ -190,10 +200,10 @@ int main(){
 	tree.push(3);
 	tree.push(2);
 	tree.push(1);
-	tree.push(4);
+	tree.push(1);
 	tree.print();
 	cout << endl;
-	tree.remove(3);
 	tree.print();
+	cout << tree.height() << endl;
 	return 0;
 }
