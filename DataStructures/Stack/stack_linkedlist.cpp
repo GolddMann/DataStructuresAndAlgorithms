@@ -1,67 +1,82 @@
 #include <iostream>
 using namespace std;
 
-template<typename T>
-class Node{
+template <typename T>
+class Node
+{
 private:
 	T data;
 	Node *next = nullptr;
+
 public:
-	Node(T data, Node *next){
+	Node(T data, Node *next)
+	{
 		this->data = data;
 		this->next = next;
 	}
 
-	Node(T data){
+	Node(T data)
+	{
 		this->data = data;
 	}
 
-	Node* getNext(){
+	Node *getNext()
+	{
 		return next;
 	}
 
-	void setData(T value){
+	void setData(T value)
+	{
 		data = value;
 	}
 
-	T getData(){
+	T getData()
+	{
 		return data;
 	}
 
-	bool hasNext(){
+	bool hasNext()
+	{
 		return next != nullptr;
 	}
 };
 
-template<typename T>
-class Stack{
+template <typename T>
+class Stack
+{
 private:
 	Node<T> *head = nullptr;
 	int size;
-public:
-	Stack():size(0){}
 
-	Stack(int value){
+public:
+	Stack() : size(0) {}
+
+	Stack(int value)
+	{
 		this->head = new Node<T>(value);
 		this->size = 1;
 	}
 
-	bool isEmpty(){
+	bool isEmpty()
+	{
 		return size == 0;
 	}
 
-	bool getSize(){
+	bool getSize()
+	{
 		return size;
 	}
 
-	void push(int value){
+	void push(int value)
+	{
 		Node<T> *newnode = new Node<T>(value, head);
 		head = newnode;
 		size++;
 	}
 
-	T pop(){
-		if(isEmpty())
+	T pop()
+	{
+		if (isEmpty())
 			throw "Stack is empty, unable to pop()";
 		T data = head->getData();
 		Node<T> *node = head;
@@ -71,16 +86,19 @@ public:
 		return data;
 	}
 
-	T peek(){
-		if(isEmpty())
+	T peek()
+	{
+		if (isEmpty())
 			throw "Stack is empty, unable to peek()";
 		return head->getData();
 	}
 
-	bool contains(T key){
+	bool contains(T key)
+	{
 		Node<T> *pointer = head;
-		while(pointer != nullptr){
-			if(pointer->getData() == key)
+		while (pointer != nullptr)
+		{
+			if (pointer->getData() == key)
 				return true;
 			pointer = pointer->getNext();
 		}
@@ -88,7 +106,8 @@ public:
 	}
 };
 
-int main(){
+int main()
+{
 	Stack<int> stack;
 	stack.push(2);
 	stack.push(2);

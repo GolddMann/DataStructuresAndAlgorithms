@@ -1,114 +1,145 @@
 #include <iostream>
 using namespace std;
 
-class Node{
+class Node
+{
 private:
 	int data;
 	Node *left;
 	Node *right;
+
 public:
-	Node(int data, Node *left = nullptr, Node *right = nullptr){
+	Node(int data, Node *left = nullptr, Node *right = nullptr)
+	{
 		this->data = data;
 		this->left = left;
 		this->right = right;
 	}
 
-	int getData(){
+	int getData()
+	{
 		return data;
 	}
 
-	int setData(int key){
+	int setData(int key)
+	{
 		data = key;
 	}
 
-	Node *getLeft(){
+	Node *getLeft()
+	{
 		return left;
 	}
 
-	Node *getRight(){
+	Node *getRight()
+	{
 		return right;
 	}
 
-	void setLeft(Node *newleft){
+	void setLeft(Node *newleft)
+	{
 		left = newleft;
 	}
 
-	void setRight(Node *newright){
+	void setRight(Node *newright)
+	{
 		right = newright;
+	}
+
+	~Node()
+	{
+		delete left;
+		delete right;
 	}
 };
 
-class BinarySearchTree{
+class BinarySearchTree
+{
 private:
 	Node *root;
 	int size;
 	int capacity;
 
-	void printInOrder(Node *node){
-		if(node == nullptr)
+	void printInOrder(Node *node)
+	{
+		if (node == nullptr)
 			return;
 		printInOrder(node->getLeft());
 		cout << node->getData() << " ";
-        printInOrder(node->getRight());
+		printInOrder(node->getRight());
 	}
 
-	void printPreOrder(Node *node){
-        if(node == nullptr)
-            return;
-        printPreOrder(node->getRight());
-        cout << node->getData() << " ";
-        printPreOrder(node->getLeft());
+	void printPreOrder(Node *node)
+	{
+		if (node == nullptr)
+			return;
+		printPreOrder(node->getRight());
+		cout << node->getData() << " ";
+		printPreOrder(node->getLeft());
 	}
 
-	void print(Node *node){
-        if(node == nullptr)
-            return;
-        cout << node->getData() << endl;
-        print(node->getLeft());
-        print(node->getRight());
+	void print(Node *node)
+	{
+		if (node == nullptr)
+			return;
+		cout << node->getData() << endl;
+		print(node->getLeft());
+		print(node->getRight());
 	}
 
-	int getHeight(Node *node){
-		if(node == nullptr)
+	int getHeight(Node *node)
+	{
+		if (node == nullptr)
 			return 0;
-		return max(getHeight(node->getLeft()),getHeight(node->getRight())) + 1;
+		return max(getHeight(node->getLeft()), getHeight(node->getRight())) + 1;
 	}
 
 public:
-	BinarySearchTree(int capacity):size(0), capacity(capacity){}
+	BinarySearchTree(int capacity) : size(0), capacity(capacity) {}
 
-	BinarySearchTree(int *array, int size, int capacity){
-		if(size > capacity)
+	BinarySearchTree(int *array, int size, int capacity)
+	{
+		if (size > capacity)
 			throw "Size can't be greater than capacity";
 		this->capacity = capacity;
 		this->size = 0;
-		for(int i = 0; i < size; i++){
+		for (int i = 0; i < size; i++)
+		{
 			this->push(array[i]);
 		}
 	}
 
-	bool isEmpty(){
+	bool isEmpty()
+	{
 		return size == 0;
 	}
 
-	void push(int key){
+	void push(int key)
+	{
 		Node *newnode = new Node(key);
-		if(isEmpty())
+		if (isEmpty())
 			root = newnode;
-		else{
+		else
+		{
 			Node *temp = root;
-			while(true){
-				if(temp->getData() > key){
-					if(temp->getLeft() == nullptr){
+			while (true)
+			{
+				if (temp->getData() > key)
+				{
+					if (temp->getLeft() == nullptr)
+					{
 						temp->setLeft(newnode);
 						break;
 					}
-					else{
+					else
+					{
 						temp = temp->getLeft();
 					}
 				}
-				else{
-					if(temp->getRight() == nullptr){
+				else
+				{
+					if (temp->getRight() == nullptr)
+					{
 						temp->setRight(newnode);
 						break;
 					}
@@ -120,48 +151,65 @@ public:
 		this->size++;
 	}
 
-	bool contains(int key){
+	bool contains(int key)
+	{
 		return contains(root, key);
 	}
 
-	bool contains(Node *node, int key){
-		if(node == nullptr)
+	bool contains(Node *node, int key)
+	{
+		if (node == nullptr)
 			return false;
-		if(node->getData() == key)
+		if (node->getData() == key)
 			return true;
 
 		return contains(node->getLeft(), key) || contains(node->getRight(), key);
 	}
 
-	void remove(int key){
-		if(isEmpty())
+	void remove(int key)
+	{
+		if (isEmpty())
 			throw "BST is empty";
-        if(contains(key)){
-            root = remove(root, key);
-        }
+		if (contains(key))
+		{
+			root = remove(root, key);
+		}
 	}
 
-	Node *remove(Node *node, int key){
-		if(node == nullptr) return nullptr;
+	Node *remove(Node *node, int key)
+	{
+		if (node == nullptr)
+			return nullptr;
 
-		if(node->getData() > key){
+		if (node->getData() > key)
+		{
 			node->setLeft(remove(node->getLeft(), key));
 		}
-		else if(node->getData() < key){
+		else if (node->getData() < key)
+		{
 			node->setRight(remove(node->getRight(), key));
 		}
-		else{
-			if(node->getLeft() == nullptr){
+		else
+		{
+			if (node->getLeft() == nullptr)
+			{
 				Node *temp = node->getRight();
 				delete node;
 				return temp;
 			}
-			else if(node->getRight() == nullptr){
+			else if (node->getRight() == nullptr)
+			{
 				Node *temp = node->getLeft();
 				delete node;
 				return temp;
 			}
-			else{
+			else if (node->getLeft() == nullptr && node->getRight() == nullptr)
+			{
+				delete node;
+				return nullptr;
+			}
+			else
+			{
 				Node *maxLeft = getMaxFromLeft(node->getLeft());
 				node->setData(maxLeft->getData());
 				node->setLeft(remove(node->getLeft(), maxLeft->getData()));
@@ -170,32 +218,52 @@ public:
 		}
 	}
 
-	Node *getMaxFromLeft(Node *node){
-		while(node->getRight() != nullptr)
+	Node *getMaxFromLeft(Node *node)
+	{
+		while (node->getRight() != nullptr)
 			node = node->getRight();
 
 		return node;
 	}
 
-	int height(){
+	int height()
+	{
 		return getHeight(root);
 	}
 
-	void printInOrder(){
+	void printInOrder()
+	{
 		printInOrder(root);
 	}
 
-	void printPreOrder(){
-        printPreOrder(root);
+	void printPreOrder()
+	{
+		printPreOrder(root);
 	}
 
-	void print(){
-        print(root);
+	void print()
+	{
+		print(root);
+	}
+
+	static void deleteTree(Node *node)
+	{
+		if (node->getLeft() != nullptr)
+			deleteTree(node->getLeft());
+		if (node->getRight() != nullptr)
+			deleteTree(node->getRight());
+
+		delete node;
+	}
+
+	~BinarySearchTree()
+	{
+		deleteTree(this->root);
 	}
 };
 
-
-int main(){
+int main()
+{
 	BinarySearchTree tree = BinarySearchTree(4);
 	tree.push(3);
 	tree.push(2);
